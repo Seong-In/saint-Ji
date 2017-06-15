@@ -7,22 +7,10 @@ from PIL import Image, ImageTk
 import tkinter.messagebox
 g_Tk = Tk()
 DataList = []
-g_Tk.geometry("800x600")
+g_Tk.geometry("800x800")
 
 
 
-
-# openapi로 이미지 url을 가져옴.
-url = "http://postfiles14.naver.net/20160517_285/mannam013_1463451327005ye90T_JPEG/%BE%C8%BC%BA%C8%DE%B0%D4%BC%D2_%BE%C8%BC%BA%B1%B9%B9%E4_%B9%F6%BC%B8%BA%D2%B0%ED%B1%E21.jpg?type=w773"
-with urllib.request.urlopen(url) as u:
-    raw_data = u.read()
-
-im = Image.open(BytesIO(raw_data))
-image = ImageTk.PhotoImage(im)
-
-label = Label(g_Tk, image=image, height=350, width=400)
-label.pack()
-label.place(x=400, y=215)
 
 
 
@@ -84,7 +72,7 @@ def SearchLibrary():
     import http.client
     from xml.dom.minidom import parse, parseString
     conn = http.client.HTTPConnection("data.ex.co.kr")
-    conn.request("GET", "/exopenapi/business/representFoodServiceArea?serviceKey=ULx0dmA5vWHvXJ4vC79V9c9i2suuEGqXRJdfniXk4p6%2FV9IooCh7SmChiFUm9zmHn0%2BIrCETAP813RCG1le8Dw%3D%3D&type=xml&numOfRows=10&pageSize=10&pageNo=1&startPage=1")
+    conn.request("GET", "/exopenapi/business/representFoodServiceArea?serviceKey=ULx0dmA5vWHvXJ4vC79V9c9i2suuEGqXRJdfniXk4p6%2FV9IooCh7SmChiFUm9zmHn0%2BIrCETAP813RCG1le8Dw%3D%3D&type=xml&numOfRows=99&pageSize=99&pageNo=1&startPage=1")
     req = conn.getresponse()
 
     global DataList
@@ -103,12 +91,15 @@ def SearchLibrary():
                 if item.nodeName == "list":
                     subitems = item.childNodes
 
-                    if subitems[6].firstChild.nodeValue == InputLabel.get():
-                        DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue+"휴게소", subitems[4].firstChild.nodeValue))
-                    elif subitems[4].firstChild.nodeValue == InputLabel.get():
-                        DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue + "휴게소",subitems[4].firstChild.nodeValue))
-                    else:
-                        continue
+                    if subitems[1].firstChild.nodeValue!="0010":
+                        if subitems[1].firstChild.nodeValue != "0120":
+                            if subitems[1].firstChild.nodeValue != "0150":
+                                if subitems[6].firstChild.nodeValue == InputLabel.get():
+                                    DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue+"휴게소", subitems[4].firstChild.nodeValue))
+                                elif subitems[4].firstChild.nodeValue == InputLabel.get():
+                                    DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue + "휴게소",subitems[4].firstChild.nodeValue))
+                                else:
+                                    continue
 
             for i in range(len(DataList)):
                 RenderText.insert(INSERT, "대표음식: ")
@@ -122,6 +113,7 @@ def SearchLibrary():
                 RenderText.insert(INSERT, "\n\n")
 
 
+
 def InitRenderText():
     global RenderText
 
@@ -130,7 +122,7 @@ def InitRenderText():
     RenderTextScrollbar.place(x=375, y=200)
 
     TempFont = font.Font(g_Tk, size=10, family='Consolas')
-    RenderText = Text(g_Tk, width=49, height=27, borderwidth=12, relief='ridge', yscrollcommand=RenderTextScrollbar.set)
+    RenderText = Text(g_Tk, width=49, height=40, borderwidth=12, relief='ridge', yscrollcommand=RenderTextScrollbar.set)
     RenderText.pack()
     RenderText.place(x=10, y=215)
     RenderTextScrollbar.config(command=RenderText.yview)
