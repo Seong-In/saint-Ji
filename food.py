@@ -101,7 +101,7 @@ def Service():
                                     DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue + "휴게소",subitems[4].firstChild.nodeValue))
                                 else:
                                     continue
-
+            DataList.sort()
             for i in range(len(DataList)):
                 RenderText.insert(INSERT,"대표음식:")
                 RenderText.insert(INSERT, DataList[i][0])
@@ -151,7 +151,7 @@ def TwoService():
                                                     DataList.append((subitems[0].firstChild.nodeValue, subitems[6].firstChild.nodeValue + "휴게소",subitems[4].firstChild.nodeValue))
                                                 else:
                                                         continue
-
+            DataList.sort()
             for i in range(len(DataList)):
                 RenderText.insert(INSERT, "★★대표음식★★")
                 RenderText.insert(INSERT, DataList[i][0])
@@ -192,7 +192,7 @@ def test():
 
 
 
-photo=PhotoImage(file="안성국밥.png")
+photo=PhotoImage(file="배경.png")
 imageLabel=Label(g_Tk,image=photo)
 imageLabel.pack()
 imageLabel.place(x=310,y=215)
